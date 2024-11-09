@@ -3,64 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotter AI - Unleash Your Strength</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Spotter | AI-Powered Weightlifting Tracking</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: #0f172a;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #3b82f6;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e2e8f0;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .features {
+            padding: 6rem 2rem;
+            background: #1e293b;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: #0f172a;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+        }
+
+        .stats {
+            padding: 6rem 2rem;
+            background: #0f172a;
+            color: white;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h2 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #3b82f6;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-item p {
+            color: #94a3b8;
+        }
+
+        .footer {
+            padding: 4rem 2rem;
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Glowing effect for interactive elements */
+        .interactive-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Subtle gradient backgrounds */
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+    </style>
 </head>
 <body>
-    <!-- Hero Section -->
+    <nav class="navbar">
+        <div class="logo">Spotter</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
     <section class="hero">
         <div class="hero-content">
-            <h1>Track Your Strength Training, Hands-Free</h1>
-            <p>Effortlessly log reps, sets, and weights with computer vision-powered performance tracking.</p>
-            <a href="#about" class="cta-button">Learn More</a>
+            <div class="hero-text">
+                <h1>Transform Your Weightlifting Journey</h1>
+                <p>The first hands-free, AI-powered performance tracking system for the weight room. Track reps, sets, and weights automatically while connecting with the strength training community.</p>
+                <a href="mailto:spotterai@gmail.com" class="cta-button interactive-glow">Join the Waitlist</a>
+            </div>
+            <div class="hero-image">
+                <img src="lifter.jpeg" alt="Man squatting a barbell">
+            </div>
         </div>
     </section>
 
-    <!-- About Spotter Section -->
-    <section id="about" class="section">
-        <h2>What is Spotter?</h2>
-        <p>Spotter is a computer vision-based, hands-free tracking and social platform designed for strength athletes. No more wearables or manual input – Spotter seamlessly records your workout data in real-time, transforming how you track, measure, and share your progress.</p>
-        <ul class="features-list">
-            <li><strong>Automatic Tracking:</strong> Hands-free rep, set, and weight tracking using AI.</li>
-            <li><strong>Strength Analysis:</strong> Track and improve your performance over time.</li>
-            <li><strong>Social Platform:</strong> Connect, compare, and compete with friends.</li>
-            <li><strong>Goal Setting:</strong> Set and reach personalized strength goals with data-driven insights.</li>
-        </ul>
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Automatic Tracking</h3>
+                <p>Our computer vision technology tracks your reps, sets, and weights in real-time - no manual input needed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Social Platform</h3>
+                <p>Connect with fellow athletes, share achievements, and build your strength community.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Performance Insights</h3>
+                <p>Get detailed analytics and progress tracking to optimize your training.</p>
+            </div>
+        </div>
     </section>
 
-    <!-- Why Spotter Section -->
-    <section id="why-spotter" class="section">
-        <h2>The Future of Fitness Tracking</h2>
-        <p>With a booming fitness tech market and rising demand for data-driven strength training, Spotter meets the need for precision tracking in the weight room. Using cutting-edge AI, Spotter captures complex movements without wearables, offering insights traditional fitness trackers can’t match.</p>
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h2>$11.99</h2>
+                <p>Monthly Subscription</p>
+            </div>
+            <div class="stat-item">
+                <h2>0</h2>
+                <p>Wearables Needed</p>
+            </div>
+        </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="section">
-        <h2>How It Works</h2>
-        <ol class="how-it-works-list">
-            <li><strong>Setup Cameras</strong> – Spotter partners with gyms to install AI-powered cameras that capture your movements accurately.</li>
-            <li><strong>Workout Normally</strong> – No wearables needed. Just lift, and Spotter tracks every rep, set, and weight automatically.</li>
-            <li><strong>See Your Data</strong> – Access in-depth performance insights and workout summaries through our app.</li>
-        </ol>
-    </section>
-
-    <!-- Join the Community Section -->
-    <section id="community" class="section">
-        <h2>Join the Community</h2>
-        <p>Spotter isn’t just about tracking – it’s about community. Our platform allows you to connect with friends, join challenges, and share progress, making every lift a little more rewarding.</p>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="section">
-        <h2>Affordable, Flexible Plans</h2>
-        <p><strong>Subscription Model:</strong> $11.99/month for core tracking features. Premium features like dynamic workout planning and live training consultations available for an additional fee.</p>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
-        <p>Contact us at <a href="mailto:myspotter.ai@gmail.com">myspotter.ai@gmail.com</a></p>
-        <p>Find us on <a href="https://www.linkedin.com/in/jheflin/" target="_blank">LinkedIn</a></p>
+        <p>&copy; 2024 Spotter. All rights reserved.</p>
+        <p>Contact: myspotter.ai@gmail.com</p>
     </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate hero section
+        gsap.from('.hero-text', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            delay: 0.5
+        });
+
+        gsap.from('.hero-image', {
+            duration: 1,
+            x: 50,
+            opacity: 0,
+            delay: 0.8
+        });
+
+        // Animate feature cards
+        gsap.from('.feature-card', {
+            scrollTrigger: {
+                trigger: '.features',
+                start: 'top center'
+            },
+            duration: 0.8,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2
+        });
+
+        // Animate stats
+        gsap.from('.stat-item', {
+            scrollTrigger: {
+                trigger: '.stats',
+                start: 'top center'
+            },
+            duration: 0.8,
+            y: 30,
+            opacity: 0,
+            stagger: 0.2
+        });
+    </script>
 </body>
 </html>
 
